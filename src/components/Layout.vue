@@ -1,6 +1,6 @@
 <template>
-  <div class="nav-wrapper">
-    <div class="content">
+  <div class="layout-wrapper" >
+    <div class="content" :class="classPrefix && classPrefix + '-content' ">
       <slot/>
     </div>
     <Nav/>
@@ -8,21 +8,22 @@
 </template>
 
 <script lang="ts">
-export default {
-  name: 'Layout.vue'
-};
+  export default {
+    name: 'Layout.vue',
+    props:['classPrefix']
+  };
 </script>
 
 <style lang="scss" scoped>
-.nav-wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+  .layout-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 
-  > .content {
-    flex-grow: 1;
-    overflow: auto;
-    border: 1px solid black;
+    > .content {
+      flex-grow: 1;
+      overflow: auto;
+      border: 1px solid black;
+    }
   }
-}
 </style>
