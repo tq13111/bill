@@ -1,10 +1,9 @@
 <template>
   <Layout class-prefix="layout">
-    <NumberPad/>
-    <Types/>
-    <Notes/>
     <Tags/>
-
+    <Notes/>
+    <Types/>
+    <NumberPad/>
   </Layout>
 </template>
 
@@ -22,6 +21,6 @@ export default {
 <style lang="scss" >
   .layout-content {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
 </style>
