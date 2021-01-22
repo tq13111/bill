@@ -1,28 +1,28 @@
 <template>
   <div class="numberPad">
-    <div class="output">100</div>
+    <div class="output">{{ output }}</div>
     <div class="buttons">
-      <button @click="calculation" value="1">1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>
-        <Icon name="delete" class-prefix="delete"/>
+      <button @click="calculation">1</button>
+      <button @click="calculation">2</button>
+      <button @click="calculation">3</button>
+      <button @click="remove">
+        <Icon class-prefix="remove" name="remove"/>
       </button>
-      <button>4</button>
-      <button>5</button>
-      <button>6</button>
-      <button>
-        <Icon name="empty" class-prefix="empty"/>
+      <button @click="calculation">4</button>
+      <button @click="calculation">5</button>
+      <button @click="calculation">6</button>
+      <button @click="clear">
+        <Icon class-prefix="clear" name="clear"/>
       </button>
-      <button>7</button>
-      <button>8</button>
-      <button>9</button>
-      <button class="ok">OK</button>
-      <button class="zero">0</button>
-      <button>
+      <button @click="calculation">7</button>
+      <button @click="calculation">8</button>
+      <button @click="calculation">9</button>
+      <button class="ok" @click="ok">OK</button>
+      <button @click="calculation" class="zero">0</button>
+      <button @click="calculation" value=".">
         <Icon name="point"/>
       </button>
-      <button>
+      <button @click="calculation" value="+">
         <Icon name="add" class-prefix="add"/>
       </button>
     </div>
@@ -31,33 +31,71 @@
 
 <script lang="ts">
   import Icon from '@/components/Icon.vue';
+  import Vue from 'vue';
+  import {Component} from 'vue-property-decorator';
 
-  export default {
-    name: 'NumberPad',
-    components: {Icon},
-    methods: {
-      calculation(e) {console.log(e.target);}
+  @Component({components: {Icon}})
+  export default class NumberPad extends Vue {
+    output: string = '0';
+
+
+    calculation(e: MouseEvent) {
+      const button = (e.currentTarget as HTMLButtonElement);
+      const input = button.textContent || button.value!;
+
+      if (this.output.length >= 16) {return;}
+      if (this.output === '0') {
+        if (input === '0') {return;} else if ('123456789'.indexOf(input) !== -1) {
+          this.output = input;
+          return;
+        }
+      }
+      if (input === '.' && this.output.match(/\+[0-9]+\.[0-9]+/)) {return;}
+      if (this.output.indexOf('+') !== -1 && input === '+' && this.output.length >= 3) {
+        const array = this.output.split('+');
+        if (array[1] !== '') {
+          const number = (parseFloat(array[0]) * 100 + parseFloat(array[1]) * 100) / 100;
+          this.output = number.toString();
+          if (this.output.length >= 16) {
+            this.output = '错误';
+            return;
+          }
+        }
+      }
+      this.output += input;
+      this.output = this.output.replace(/\+0+/, '+0').replace(/\.\+/, '+').replace(/\.+/g, '.').replace(/\++/, '+').replace(/\+\./, '+0.');
     }
-  };
+
+    remove() {
+      this.output = this.output.slice(0, -1);
+      if (this.output.length === 0) {this.output = '0';}
+    }
+
+    clear() {
+      this.output = '0';
+    }
+
+    ok() {}
+  }
 </script>
 
 <style lang="scss">
   button {
-    > .delete {
+    > .remove {
       width: 1.5em !important;
       height: 1.5em !important;
       vertical-align: -0.5em !important;
     }
 
-    > .empty {
+    > .clear {
       width: 2em !important;
       height: 2em !important;
       vertical-align: -0.5em !important;
     }
 
     > .add {
-      width: 2em !important;
-      height: 2em !important;
+      width: 1.5em !important;
+      height: 1.5em !important;
       vertical-align: -0.5em !important;
     }
   }
@@ -73,6 +111,7 @@
       font-family: Consolas, monospace;
       padding: 9px 16px;
       text-align: right;
+      height: 72px;
     }
 
     .buttons {
@@ -105,11 +144,11 @@
           background: darken($bg, 4*2%);
         }
 
-        &:nth-child(4), &:nth-child(7), &:nth-child(10) ,&:nth-child(13){
+        &:nth-child(4), &:nth-child(7), &:nth-child(10), &:nth-child(13) {
           background: darken($bg, 4*3%);
         }
 
-        &:nth-child(8), &:nth-child(11),  &:nth-child(14){
+        &:nth-child(8), &:nth-child(11), &:nth-child(14) {
           background: darken($bg, 4*4%);
         }
 

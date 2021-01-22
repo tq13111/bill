@@ -35,13 +35,15 @@
     flex-grow: 1;
     flex-direction: column;
     justify-content: flex-end;
+
     > .current {
       display: flex;
       flex-wrap: wrap;
+      padding-left: 20px;
 
       > li {
         background: #d9d9d9;
-        $h: 24px;
+        $h: 22px;
         height: $h;
         line-height: $h;
         border-radius: $h/2;
@@ -53,7 +55,8 @@
 
     > .new {
       padding-top: 16px;
-
+      padding-left: 20px;
+    
       button {
         background: transparent;
         border: none;
