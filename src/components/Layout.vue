@@ -23,7 +23,7 @@
     > .content {
       flex-grow: 1;
       overflow: auto;
-      border: 1px solid black;
+      border: 1px solid #000000;
     }
   }
 </style>

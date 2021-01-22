@@ -1,6 +1,6 @@
 <template>
-  <svg class="icon">
-    <use :xlink:href="'#'+ name"></use>
+  <svg class="icon" :class="classPrefix">
+    <use :xlink:href="'#'+ name" ></use>
   </svg>
 </template>
 
@@ -10,7 +10,7 @@
 
   export default {
     name: 'Icon.vue',
-    props: ['name']
+    props: ['name','classPrefix']
   };
 </script>
 
