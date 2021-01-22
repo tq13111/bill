@@ -25,7 +25,6 @@
       <button>
         <Icon name="add" class-prefix="add"/>
       </button>
-
     </div>
   </div>
 </template>
