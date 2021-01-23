@@ -8,9 +8,13 @@
 </template>
 
 <script lang="ts">
-  export default {
-    name: 'Notes'
-  };
+  import Vue from 'vue';
+  import {Component} from 'vue-property-decorator';
+
+  @Component
+  export default class Notes extends Vue {
+    name: string = 'Notes';
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -20,9 +24,11 @@
     padding-left: 16px;
     display: flex;
     align-items: center;
+
     .name {
       padding-right: 16px;
     }
+
     input {
       height: 64px;
       flex-grow: 1;

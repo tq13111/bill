@@ -1,30 +1,38 @@
 <template>
   <div class="tags">
     <ul class="current">
-      <li>衣</li>
-      <li>食</li>
-      <li>住</li>
-      <li>行</li>
-      <li>衣</li>
-      <li>食</li>
-      <li>住</li>
-      <li>行</li>
-      <li>衣</li>
-      <li>食</li>
-      <li>住</li>
-      <li>行</li>
+      <li v-for="tag in value" :key="tag" :class="{selected:tag ===selectedTag}" @click="select(tag)">{{ tag }}</li>
+
     </ul>
     <div class="new">
-      <button>新增标签</button>
+      <button @click="create">新增标签</button>
     </div>
   </div>
 
 </template>
 
 <script lang="ts">
-  export default {
-    name: 'Tags'
-  };
+  import Vue from 'vue';
+  import {Component, Prop} from 'vue-property-decorator';
+
+  @Component
+  export default class Tags extends Vue {
+    @Prop() readonly value!: string[];
+    name: string = 'Tags';
+    selectedTag: string = '';
+
+    select(tag: string) {
+      if (this.selectedTag !== tag) {this.selectedTag = tag;} else {this.selectedTag = '';}
+    }
+
+    create() {
+      const name = window.prompt('请输入标签名');
+      if (name === null) {return;}
+      if (name === '') {window.alert('标签名不能为空，请重新输入');} else if (this.value.indexOf(name) !== -1) {window.alert('该标签已存在');} else {
+        this.$emit('update:value', [...this.value, name]);
+      }
+    }
+  }
 </script>
 
 <style lang="scss" scoped>
@@ -42,7 +50,8 @@
       padding-left: 20px;
 
       > li {
-        background: #d9d9d9;
+        $bg: #d9d9d9;
+        background: $bg;
         $h: 22px;
         height: $h;
         line-height: $h;
@@ -50,13 +59,18 @@
         padding: 0 16px;
         margin-right: 12px;
         margin-top: 4px;
+
+        &.selected {
+          color: white;
+          background: darken($bg, 50%);
+        }
       }
     }
 
     > .new {
       padding-top: 16px;
       padding-left: 20px;
-    
+
       button {
         background: transparent;
         border: none;
