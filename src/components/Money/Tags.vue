@@ -18,11 +18,11 @@
   @Component
   export default class Tags extends Vue {
     @Prop() readonly value!: string[];
+    @Prop() readonly selectedTag: string = '';
     name: string = 'Tags';
-    selectedTag: string = '';
 
     select(tag: string) {
-      if (this.selectedTag !== tag) {this.selectedTag = tag;} else {this.selectedTag = '';}
+      if (this.selectedTag !== tag) {this.$emit('update:selectedTag', tag);} else {this.$emit('update:selectedTag', '');}
     }
 
     create() {
