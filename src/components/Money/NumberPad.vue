@@ -91,22 +91,24 @@
 
 <style lang="scss">
   button {
-    > .remove {
-      width: 1.5em !important;
-      height: 1.5em !important;
-      vertical-align: -0.5em !important;
-    }
+    > .icon {
+      &.remove {
+        width: 1.5em;
+        height: 1.5em;
+        vertical-align: -0.5em;
+      }
 
-    > .clear {
-      width: 2em !important;
-      height: 2em !important;
-      vertical-align: -0.5em !important;
-    }
+      &.clear {
+        width: 2em;
+        height: 2em;
+        vertical-align: -0.5em;
+      }
 
-    > .add {
-      width: 1.5em !important;
-      height: 1.5em !important;
-      vertical-align: -0.5em !important;
+      &.add {
+        width: 1.5em;
+        height: 1.5em;
+        vertical-align: -0.5em;
+      }
     }
   }
 </style>
