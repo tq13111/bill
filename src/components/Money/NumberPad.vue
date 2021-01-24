@@ -6,13 +6,13 @@
       <button @click="calculation">2</button>
       <button @click="calculation">3</button>
       <button @click="remove">
-        <Icon class-prefix="remove" name="remove"/>
+        <Icon name="remove"/>
       </button>
       <button @click="calculation">4</button>
       <button @click="calculation">5</button>
       <button @click="calculation">6</button>
       <button @click="clear">
-        <Icon class-prefix="clear" name="clear"/>
+        <Icon name="clear"/>
       </button>
       <button @click="calculation">7</button>
       <button @click="calculation">8</button>
@@ -89,29 +89,6 @@
   }
 </script>
 
-<style lang="scss">
-  button {
-    > .icon {
-      &.remove {
-        width: 1.5em;
-        height: 1.5em;
-        vertical-align: -0.5em;
-      }
-
-      &.clear {
-        width: 2em;
-        height: 2em;
-        vertical-align: -0.5em;
-      }
-
-      &.add {
-        width: 1.5em;
-        height: 1.5em;
-        vertical-align: -0.5em;
-      }
-    }
-  }
-</style>
 <style lang="scss" scoped>
   @import "~@/assets/style/helper.scss";
 
@@ -136,11 +113,31 @@
         background: transparent;
         border: none;
 
+        > .icon {
+          &.remove {
+            width: 1.5em;
+            height: 1.5em;
+            vertical-align: -0.5em;
+          }
+
+          &.clear {
+            width: 2em;
+            height: 2em;
+            vertical-align: -0.5em;
+          }
+
+          &.add {
+            width: 1.5em;
+            height: 1.5em;
+            vertical-align: -0.5em;
+          }
+
+        }
+
         &.ok {
           height: 64*2px;
           float: right;
         }
-
 
         $bg: #f2f2f2;
 

@@ -5,7 +5,7 @@
 
     </ul>
     <div class="new">
-      <button @click="create">新增标签</button>
+      <button @click="create">新建标签</button>
     </div>
   </div>
 

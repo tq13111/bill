@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <router-link to="/Label" class="item" active-class="selected">
+    <router-link active-class="selected" class="item" to="/Labels">
       <Icon name="label"/>
       标签
     </router-link>
@@ -15,11 +15,8 @@
   </nav>
 </template>
 <script lang="ts">
-  import Icon from '@/components/Icon.vue';
-
   export default {
     name: 'Nav.vue',
-    components: {Icon}
   };
 </script>
 

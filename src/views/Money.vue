@@ -44,6 +44,7 @@
 </script>
 
 <style lang="scss">
+
   .layout-content {
     display: flex;
     flex-direction: column;
