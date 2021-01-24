@@ -2,7 +2,7 @@
   <Layout class-prefix="layout">
     {{ record }}
     <Tags :selected-tag.sync="record.tag" :value.sync="record.tagList"/>
-    <Notes/>
+    <Notes :value.sync="record.notes"/>
     <Types/>
     <NumberPad/>
   </Layout>
