@@ -32,12 +32,12 @@
 <script lang="ts">
   import Icon from '@/components/Icon.vue';
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component, Prop} from 'vue-property-decorator';
 
   @Component({components: {Icon}})
   export default class NumberPad extends Vue {
-    output: string = '0';
-
+    @Prop() readonly value!: number;
+    output = this.value.toString();
 
     calculation(e: MouseEvent) {
       const button = (e.currentTarget as HTMLButtonElement);
@@ -52,18 +52,22 @@
       }
       if (input === '.' && this.output.match(/\+[0-9]+\.[0-9]+/)) {return;}
       if (this.output.indexOf('+') !== -1 && input === '+' && this.output.length >= 3) {
-        const array = this.output.split('+');
-        if (array[1] !== '') {
-          const number = (parseFloat(array[0]) * 100 + parseFloat(array[1]) * 100) / 100;
-          this.output = number.toString();
-          if (this.output.length >= 16) {
-            this.output = '错误';
-            return;
-          }
-        }
+        this.add();
       }
       this.output += input;
       this.output = this.output.replace(/\+0+/, '+0').replace(/\.\+/, '+').replace(/\.+/g, '.').replace(/\++/, '+').replace(/\+\./, '+0.');
+    }
+
+    add() {
+      const array = this.output.split('+');
+      if (array[1] !== '') {
+        const number = (parseFloat(array[0]) * 100 + parseFloat(array[1]) * 100) / 100;
+        this.output = number.toString();
+        if (this.output.length >= 16) {
+          this.output = '错误';
+          return;
+        }
+      }
     }
 
     remove() {
@@ -75,7 +79,13 @@
       this.output = '0';
     }
 
-    ok() {}
+    ok() {
+      if (this.output.indexOf('+') !== -1) {this.add();}
+      this.output = this.output.replace(/\.$|\+$/, '');
+      this.$emit('update:value', this.output);
+      this.$emit('submit');
+      this.output = '0';
+    }
   }
 </script>
 
