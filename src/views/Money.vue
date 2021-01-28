@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-    <Tags :selected-tag.sync="record.tag" :value.sync="tagList"/>
+    <Tags/>
     <Notes :value.sync="record.notes"/>
     <Types :value.sync="record.type"/>
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
@@ -13,16 +13,15 @@
   import Types from '@/components/Money/Types.vue';
   import Notes from '@/components/Money/Notes.vue';
   import Tags from '@/components/Money/Tags.vue';
-  import {Component, Watch} from 'vue-property-decorator';
-  import recordStore from '@/recordStore';
+  import {Component} from 'vue-property-decorator';
+  import tagStore from '@/store/tagStore';
+  import recordStore from '@/store/recordStore';
 
-  const recordList = recordStore.fetchRecords();
 
   @Component({components: {Tags, Notes, Types, NumberPad}})
   export default class Money extends Vue {
-    name: string = `Money.vue`;
-    tagList: string[] = ['衣', '食', '住', '行'];
-    recordList = recordList;
+    tagList = tagStore.tagList;
+    recordList = recordStore.recordList;
     record: RecordItem = {
       tag: '',
       notes: '',
@@ -31,13 +30,9 @@
     };
 
     saveRecord() {
-      recordStore.updateRecords(this.record);
+      recordStore.createRecord(this.record);
     }
 
-    @Watch('recordList')
-    onRecordListChanged() {
-      recordStore.saveRecords(this.recordList);
-    }
   }
 </script>
 

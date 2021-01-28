@@ -1,11 +1,13 @@
 <template>
   <div class="tags">
     <ul class="current">
-      <li v-for="tag in value" :key="tag" :class="{selected:tag ===selectedTag}" @click="select(tag)">{{ tag }}</li>
+      <li v-for="tag in tagList" :key="tag.id" :class="{selected:tag.name ===selectedTag}" @click="select(tag.name)">
+        {{ tag.name }}
+      </li>
 
     </ul>
     <div class="new">
-      <button @click="create">新建标签</button>
+      <button @click="createTag">新建标签</button>
     </div>
   </div>
 
@@ -13,24 +15,22 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Prop} from 'vue-property-decorator';
+  import {Component} from 'vue-property-decorator';
+  import tagStore from '@/store/tagStore';
 
   @Component
   export default class Tags extends Vue {
-    @Prop() readonly value!: string[];
-    @Prop() readonly selectedTag: string = '';
-    name: string = 'Tags';
+    tagList = tagStore.tagList;
+    selectedTag: string = '';
 
     select(tag: string) {
       if (this.selectedTag !== tag) {this.$emit('update:selectedTag', tag);} else {this.$emit('update:selectedTag', '');}
     }
 
-    create() {
+    createTag() {
       const name = window.prompt('请输入标签名');
-      if (name === null) {return;}
-      if (name === '') {window.alert('标签名不能为空，请重新输入');} else if (this.value.indexOf(name) !== -1) {window.alert('该标签已存在');} else {
-        this.$emit('update:value', [...this.value, name]);
-      }
+      if (!name) {return window.alert('标签名不能为空，请重新输入');}
+      tagStore.createTag(name);
     }
   }
 </script>

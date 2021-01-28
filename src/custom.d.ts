@@ -5,3 +5,7 @@ type RecordItem = {
   tag: string
   createdAt?: Date
 }
+type Tag = {
+  id: string,
+  name: string
+}

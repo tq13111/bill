@@ -9,7 +9,7 @@ const recordStore = {
   saveRecords() {
     window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
   },
-  updateRecords(recordList: RecordItem[]) {
+  createRecord(recordList: RecordItem) {
     const record2: RecordItem = clone(recordList);
     record2.createdAt = new Date();
     this.recordList.push(record2);
