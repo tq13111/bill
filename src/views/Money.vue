@@ -18,7 +18,6 @@
   import {Component} from 'vue-property-decorator';
   import store from '@/store/index2';
 
-
   @Component({components: {Tags, Input, Types, NumberPad}})
   export default class Money extends Vue {
     tagList = store.tagList;

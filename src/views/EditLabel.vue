@@ -1,12 +1,12 @@
 <template>
   <Layout>
     <div class="navBar">
-      <Icon class="leftIcon" name="left" @click="goBack"/>
+      <Icon name="left" @click="goBack"/>
       <span class="title">编辑标签</span>
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <Input placeholder="在这里输入标签名" title="标签名"/>
+      <Input :value="tag && tag.name" placeholder="在这里输入标签名" title="标签名" @update:value="update"/>
     </div>
     <div class="button-wrapper">
       <Button @click="remove">删除标签</Button>
@@ -19,13 +19,36 @@
   import {Component} from 'vue-property-decorator';
   import Input from '@/components/Money/Input.vue';
   import Button from '@/components/Button.vue';
+  import store from '@/store/index2';
 
   @Component({
     components: {Input, Button}
   })
   export default class editLabel extends Vue {
+    tag?: Tag = undefined;
 
+    created() {
+      this.tag = store.findTag(this.$route.params.id);
+      if (!this.tag) {
+        this.$router.replace('/404');
+      }
+    }
 
+    update(name: string) {
+      if (this.tag) {
+        store.updateTag(this.tag.id, name);
+      }
+    }
+
+    remove() {
+      if (this.tag && store.removeTag(this.tag.id)) {
+        this.$router.back();
+      }
+    }
+
+    goBack() {
+      this.$router.back();
+    }
   }
 </script>
 

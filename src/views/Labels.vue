@@ -1,11 +1,11 @@
 <template>
   <Layout>
     <ul class="tags">
-      <li v-for="tag in tagList"
-          :key="tag.id" :to="`/labels/edit/${tag.id}`"
-          class="tag">{{ tag.name }}
+      <router-link v-for="tag in tagList"
+                   :key="tag.id" :to="`/labels/edit/${tag.id}`"
+                   class="tag">{{ tag.name }}
         <Icon name="right"/>
-      </li>
+      </router-link>
     </ul>
     <div class="createTag-wrapper">
       <button class="createTag" @click="createTag">新建标签</button>
@@ -16,16 +16,17 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-  import tagStore from '@/store/tagStore';
+  import store from '@/store/index2';
 
   @Component
   export default class Labels extends Vue {
-    tagList = tagStore.tagList;
+    tagList = store.tagList;
 
     createTag() {
       const name = window.prompt('请输入标签名');
-      if (!name) {return window.alert('标签名不能为空，请重新输入');}
-      tagStore.createTag(name);
+      if (name === null) {return;}
+      if (name === '') {return window.alert('标签名不能为空，请重新输入');}
+      store.createTag(name);
     }
   }
 </script>

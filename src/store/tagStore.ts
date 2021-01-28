@@ -2,6 +2,32 @@ import createId from '@/lib/createId';
 
 const tagStore = {
   tagList: [] as Tag[],
+  findTag(id: string) {
+    return this.tagList.filter(item => item.id === id)[0];
+  },
+  updateTag(id: string, name: string) {
+    const names = this.tagList.map(item => item.name);
+    if (names.indexOf(name) >= 0) {
+      return 'duplicated';
+    } else {
+      const tag = this.tagList.filter(item => item.id === id)[0];
+      tag.name = name;
+      this.saveTags();
+      return 'success';
+    }
+  },
+  removeTag(id: string) {
+    let index = -1;
+    for (let i = 0; i < this.tagList.length; i++) {
+      if (this.tagList[i].id === id) {
+        index = i;
+        break;
+      }
+    }
+    this.tagList.splice(index, 1);
+    this.saveTags();
+    return true;
+  },
   fetchTags() {
     this.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]') as Tag[];
     return this.tagList;
@@ -19,7 +45,6 @@ const tagStore = {
       this.saveTags();
     }
   },
-
 };
 tagStore.fetchTags();
 export default tagStore;
