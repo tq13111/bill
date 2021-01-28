@@ -18,7 +18,8 @@ const tagStore = {
       this.tagList.push({id, name});
       this.saveTags();
     }
-  }
+  },
+
 };
 tagStore.fetchTags();
 export default tagStore;

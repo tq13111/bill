@@ -43,6 +43,7 @@
     flex-grow: 1;
     flex-direction: column;
     justify-content: flex-end;
+    background: #FFFFFF;
 
     > .current {
       display: flex;
