@@ -1,21 +1,15 @@
 <template>
   <Layout>
     <ul class="tags">
-      <li>衣
+      <router-link v-for="tag in tagList"
+                   :key="tag.id" :to="`/labels/edit/${tag.id}`"
+                   class="tag">{{ tag.name }}
         <Icon name="right"/>
-      </li>
-      <li>食
-        <Icon name="right"/>
-      </li>
-      <li>住
-        <Icon name="right"/>
-      </li>
-      <li>行
-        <Icon name="right"/>
-      </li>
+      </router-link>
+
     </ul>
     <div class="createTag-wrapper">
-      <button class="createTag">新建标签</button>
+      <button class="createTag" @click="createTag">新建标签</button>
     </div>
   </Layout>
 </template>
@@ -23,10 +17,17 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
+  import tagStore from '@/store/tagStore';
 
   @Component
   export default class Labels extends Vue {
+    tagList = tagStore.tagList;
 
+    createTag() {
+      const name = window.prompt('请输入标签名');
+      if (!name) {return window.alert('标签名不能为空，请重新输入');}
+      tagStore.createTag(name);
+    }
   }
 </script>
 
@@ -36,7 +37,7 @@
     font-size: 16px;
     padding-left: 16px;
 
-    > li {
+    > .tag {
       padding: 10px 0;
       border-bottom: 1px solid #e6e6e6;
       display: flex;

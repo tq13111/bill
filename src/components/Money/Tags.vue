@@ -16,11 +16,11 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-  import tagStore from '@/store/tagStore';
+  import store from '@/store/index2';
 
   @Component
   export default class Tags extends Vue {
-    tagList = tagStore.tagList;
+    tagList = store.tagList;
     selectedTag: string = '';
 
     select(tag: string) {
@@ -30,7 +30,7 @@
     createTag() {
       const name = window.prompt('请输入标签名');
       if (!name) {return window.alert('标签名不能为空，请重新输入');}
-      tagStore.createTag(name);
+      store.createTag(name);
     }
   }
 </script>
