@@ -34,7 +34,6 @@
   .tags {
     background: white;
     font-size: 16px;
-    padding-top: 10px;
     padding-left: 16px;
 
     > li {
@@ -46,6 +45,7 @@
       > svg {
         color: #666;
         margin-right: 16px;
+        margin-top: 4px;
       }
     }
   }
