@@ -8,12 +8,11 @@ const tagStore = {
   updateTag(id: string, name: string) {
     const names = this.tagList.map(item => item.name);
     if (names.indexOf(name) >= 0) {
-      return 'duplicated';
+      window.alert('标签名重复，请重新输入');
     } else {
       const tag = this.tagList.filter(item => item.id === id)[0];
       tag.name = name;
       this.saveTags();
-      return 'success';
     }
   },
   removeTag(id: string) {
@@ -26,7 +25,6 @@ const tagStore = {
     }
     this.tagList.splice(index, 1);
     this.saveTags();
-    return true;
   },
   fetchTags() {
     this.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]') as Tag[];

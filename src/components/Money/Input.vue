@@ -1,7 +1,7 @@
 <template>
   <label class="input">
     <span class="name">{{ title }}</span>
-    <input :placeholder="placeholder" :value="value" type="text" @input="onValueChanged($event.target.value)">
+    <input :placeholder="placeholder" :value="value" type="text" @change="onValueChanged($event.target.value)">
   </label>
 </template>
 
