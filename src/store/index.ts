@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import createId from '@/lib/createId';
+import clone from '@/lib/clone';
 
 Vue.use(Vuex);
 
@@ -58,6 +59,18 @@ const store = new Vuex.Store({
         store.commit('saveTags');
       }
     },
+    fetchRecords(state) {
+      state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
+    },
+    saveRecords(state) {
+      window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
+    },
+    createRecord(state, recordList: RecordItem) {
+      const record2: RecordItem = clone(recordList);
+      record2.createdAt = new Date();
+      state.recordList.push(record2);
+      store.commit('saveRecords');
+    }
   },
   actions: {},
   modules: {}

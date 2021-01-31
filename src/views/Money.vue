@@ -16,12 +16,17 @@
   import Input from '@/components/Money/Input.vue';
   import Tags from '@/components/Money/Tags.vue';
   import {Component} from 'vue-property-decorator';
-  import store from '@/store/index2';
 
   @Component({components: {Tags, Input, Types, NumberPad}})
   export default class Money extends Vue {
-    tagList = store.tagList;
-    recordList = store.recordList;
+    get tagList() {
+      return this.$store.state.tagList;
+    }
+
+    get recordList() {
+      return this.$store.state.recordList;
+    }
+
     record: RecordItem = {
       tag: '',
       notes: '',
@@ -30,7 +35,7 @@
     };
 
     saveRecord() {
-      store.createRecord(this.record);
+      this.$store.commit('createRecord', this.record);
     }
 
   }
