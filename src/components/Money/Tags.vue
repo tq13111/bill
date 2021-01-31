@@ -16,22 +16,24 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-  import store from '@/store/index2';
 
   @Component
   export default class Tags extends Vue {
-    tagList = store.tagList;
     selectedTag: string = '';
 
+    get tagList() {
+      return this.$store.state.tagList;
+    }
+
     select(tag: string) {
-      if (this.selectedTag !== tag) {this.$emit('update:selectedTag', tag);} else {this.$emit('update:selectedTag', '');}
+      if (this.selectedTag !== tag) {this.selectedTag = tag;} else {this.selectedTag = '';}
     }
 
     createTag() {
       const name = window.prompt('请输入标签名');
       if (name === null) {return;}
       if (name === '') {return window.alert('标签名不能为空，请重新输入');}
-      store.createTag(name);
+      this.$store.commit('createTag', name);
     }
   }
 </script>

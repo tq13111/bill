@@ -45,7 +45,6 @@
     remove() {
       if (this.currentTag) {
         this.$store.commit('removeTag', this.currentTag.id);
-        this.$router.back();
       }
     }
 

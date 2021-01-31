@@ -38,6 +38,10 @@
       this.$store.commit('createRecord', this.record);
     }
 
+    created() {
+      this.$store.commit('fetchTags');
+
+    }
   }
 </script>
 
