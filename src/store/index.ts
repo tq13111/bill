@@ -38,6 +38,7 @@ const store = new Vuex.Store({
       for (let i = 0; i < state.tagList.length; i++) {
         if (state.tagList[i].id === id) {
           index = i;
+          console.log(index);
           break;
         }
       }
@@ -48,7 +49,6 @@ const store = new Vuex.Store({
       } else {
         window.alert('删除失败');
       }
-      state.tagList.splice(index, 1);
       store.commit('saveTags');
     },
     fetchTags(state) {
@@ -75,7 +75,7 @@ const store = new Vuex.Store({
     },
     createRecord(state, recordList: RecordItem) {
       const record2: RecordItem = clone(recordList);
-      record2.createdAt = new Date();
+      record2.createdAt = new Date().toISOString();
       state.recordList.push(record2);
       store.commit('saveRecords');
     }

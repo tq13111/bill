@@ -6,7 +6,8 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <Input :value="currentTag && currentTag.name" placeholder="在这里输入标签名" title="标签名" @update:value="update"/>
+      <Input :value="currentTag && currentTag.name" class-prefix="" placeholder="在这里输入标签名" title="标签名"
+             @update:value="update"/>
     </div>
     <div class="button-wrapper">
       <Button @click="remove">删除标签</Button>
@@ -81,6 +82,12 @@
   .form-wrapper {
     background: white;
     margin-top: 8px;
+
+    ::v-deep .input {
+      input {
+        height: 44px;
+      }
+    }
   }
 
   .button-wrapper {
