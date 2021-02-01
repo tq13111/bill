@@ -4,7 +4,7 @@
     <Input :value.sync="record.notes"
            placeholder="在这里输入备注"
            title="备注"/>
-    <Types :value.sync="record.type"/>
+    <Tabs :dataSource="dataSource" :value.sync="record.type" class-prefix="xxx"/>
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
   </Layout>
 </template>
@@ -12,13 +12,16 @@
 <script lang="ts">
   import Vue from 'vue';
   import NumberPad from '@/components/Money/NumberPad.vue';
-  import Types from '@/components/Money/Types.vue';
+  import Tabs from '@/components/Tabs.vue';
   import Input from '@/components/Money/Input.vue';
   import Tags from '@/components/Money/Tags.vue';
   import {Component} from 'vue-property-decorator';
+  import recordTypeList from '@/constants/recordTypeList';
 
-  @Component({components: {Tags, Input, Types, NumberPad}})
+  @Component({components: {Tags, Input, Tabs, NumberPad}})
   export default class Money extends Vue {
+    dataSource = recordTypeList;
+
     get tagList() {
       return this.$store.state.tagList;
     }
