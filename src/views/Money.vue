@@ -45,8 +45,8 @@
     }
 
     created() {
+      this.$store.commit('fetchRecords');
       this.$store.commit('fetchTags');
-
     }
   }
 </script>
