@@ -78,6 +78,7 @@ const store = new Vuex.Store({
       record2.createdAt = new Date().toISOString();
       state.recordList.push(record2);
       store.commit('saveRecords');
+      window.alert('记账成功');
     }
   },
   actions: {},

@@ -1,7 +1,7 @@
 <template>
   <div class="tags">
     <ul class="current">
-      <li v-for="tag in tagList" :key="tag.id" :class="{selected:tag.name ===selectedTag}" @click="select(tag.name)">
+      <li v-for="tag in tagList" :key="tag.id" :class="{selected:tag.name ===value}" @click="select(tag.name)">
         {{ tag.name }}
       </li>
 
@@ -14,20 +14,20 @@
 </template>
 
 <script lang="ts">
-  import {Component} from 'vue-property-decorator';
+  import {Component, Prop} from 'vue-property-decorator';
   import {mixins} from 'vue-class-component';
   import tagHelper from '@/mixins/tagHelper';
 
   @Component
   export default class Tags extends mixins(tagHelper) {
-    selectedTag: string = '';
+    @Prop() readonly value: string = '';
 
     get tagList() {
       return this.$store.state.tagList;
     }
 
     select(tag: string) {
-      if (this.selectedTag !== tag) {this.selectedTag = tag;} else {this.selectedTag = '';}
+      if (this.value !== tag) {this.$emit('update:value', tag);} else {this.$emit('update:value', '');}
     }
 
     createTag() {

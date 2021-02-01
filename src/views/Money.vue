@@ -1,6 +1,6 @@
 <template>
   <Layout class-prefix="layout">
-    <Tags/>
+    <Tags :value.sync="record.tag"/>
     <Input :value.sync="record.notes"
            placeholder="在这里输入备注"
            title="备注"/>
@@ -31,11 +31,14 @@
       tag: '',
       notes: '',
       type: '-',
-      amount: 0,
+      amount: '0',
     };
 
     saveRecord() {
-      this.$store.commit('createRecord', this.record);
+      if (this.record.amount === '0' && this.record.tag === '') {return window.alert('请选择标签并输入金额');} else if (this.record.amount === '0') {return window.alert('未输入金额，请重新输入');} else if (this.record.tag === '') {return window.alert('请选择标签，请重新输入');} else {
+        this.$store.commit('createRecord', this.record);
+      }
+      this.record.tag = '';
     }
 
     created() {
@@ -45,9 +48,8 @@
   }
 </script>
 
-<style lang="scss">
-
-  .layout-content {
+<style lang="scss" scoped>
+  ::v-deep .layout-content {
     display: flex;
     flex-direction: column;
   }
