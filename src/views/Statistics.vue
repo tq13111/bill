@@ -1,9 +1,9 @@
 <template>
   <Layout>
     <Tabs :dataSource="dataSource" :value.sync="type" class-prefix="type"/>
-    <ul>
+    <ul v-if="groupList.length>0">
       <li v-for="(group,index) in groupList" :key="index">
-        <h3 class="title">{{ beautify(group.title) }}</h3>
+        <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
         <ul>
           <li v-for="(item,index) in group.items" :key=index class="record">
             <span>{{ item.tag }}</span>
@@ -12,6 +12,7 @@
         </ul>
       </li>
     </ul>
+    <div v-else class="no-result">目前没有相关记录</div>
   </Layout>
 </template>
 
@@ -36,12 +37,12 @@
 
     get groupList() {
       const {recordList} = this;
-      if (recordList.length === 0) {return [];}
-
       const newList = clone(recordList)
         .filter(item => item.type === this.type)
         .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
-      const result = [{title: dayjs(newList[0].createdAt).format('YYYY-M-D'), items: [newList[0]]}];
+      if (newList.length === 0) {return [] as Result;}
+
+      const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-M-D'), items: [newList[0]]}];
       for (let i = 1; i < newList.length; i++) {
         const current = newList[i];
         const last = result[result.length - 1];
@@ -51,6 +52,9 @@
           result.push({title: dayjs(current.createdAt).format('YYYY-M-D'), items: [current]});
         }
       }
+      result.map((group) => {
+        group.total = group.items.reduce((previousValue, item) => previousValue + item.amount, 0);
+      });
       return result;
     }
 
@@ -110,5 +114,10 @@
     margin-right: auto;
     margin-left: 16px;
     color: #999;
+  }
+
+  .no-result {
+    text-align: center;
+    padding: 16px;
   }
 </style>

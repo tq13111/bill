@@ -14,3 +14,9 @@ type Tag = {
   id: string,
   name: string
 }
+type Result = {
+  title: string
+  total?: number
+  items: RecordItem[]
+}[]
+
