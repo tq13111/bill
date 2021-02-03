@@ -12,7 +12,6 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
-
   @Component
   export default class Tabs extends Vue {
     @Prop({required: true}) readonly dataSource!: { text: string, value: string }[];

@@ -6,8 +6,8 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <Input :value="currentTag && currentTag.name" class-prefix="" placeholder="在这里输入标签名" title="标签名"
-             @update:value="update"/>
+      <MyInput :value="currentTag && currentTag.name" class-prefix="" placeholder="在这里输入标签名" title="标签名"
+               @update:value="update"/>
     </div>
     <div class="button-wrapper">
       <Button @click="remove">删除标签</Button>
@@ -18,11 +18,11 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
-  import Input from '@/components/Money/Input.vue';
+  import MyInput from '@/components/Money/MyInput.vue';
   import Button from '@/components/Button.vue';
 
   @Component({
-    components: {Input, Button}
+    components: {MyInput, Button}
   })
   export default class editLabel extends Vue {
     get currentTag() {

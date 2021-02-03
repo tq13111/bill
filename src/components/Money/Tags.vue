@@ -36,6 +36,11 @@
       if (name === '') {return window.alert('标签名不能为空，请重新输入');}
       this.$store.commit('createTag', name);
     }
+
+    created() {
+      this.$store.commit('fetchTags');
+    }
+
   }
 </script>
 

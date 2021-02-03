@@ -1,9 +1,11 @@
 <template>
   <Layout class-prefix="layout">
     <Tags :value.sync="record.tag"/>
-    <Input :value.sync="record.notes"
-           placeholder="在这里输入备注"
-           title="备注"/>
+    <MyInput :value.sync="record.notes"
+             placeholder="在这里输入备注"
+             title="备注">
+      <input v-model="isoString" :style="{width:'140px',marginRight:'16px'}" type="date">
+    </MyInput>
     <Tabs :dataSource="dataSource" :value.sync="record.type" class-prefix="xxx"/>
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
   </Layout>
@@ -13,40 +15,37 @@
   import Vue from 'vue';
   import NumberPad from '@/components/Money/NumberPad.vue';
   import Tabs from '@/components/Tabs.vue';
-  import Input from '@/components/Money/Input.vue';
+  import MyInput from '@/components/Money/MyInput.vue';
   import Tags from '@/components/Money/Tags.vue';
   import {Component} from 'vue-property-decorator';
   import recordTypeList from '@/constants/recordTypeList';
+  import dayjs from 'dayjs';
 
-  @Component({components: {Tags, Input, Tabs, NumberPad}})
+  @Component({components: {Tags, MyInput, Tabs, NumberPad}})
   export default class Money extends Vue {
     dataSource = recordTypeList;
-
-    get tagList() {
-      return this.$store.state.tagList;
-    }
-
-    get recordList() {
-      return this.$store.state.recordList;
-    }
-
     record: RecordItem = {
       tag: '',
       notes: '',
       type: '-',
       amount: 0,
+      createdAt: new Date().toISOString(),
     };
+
+    get isoString() {
+      return dayjs().format('YYYY-MM-DD');
+    }
 
     saveRecord() {
       if (this.record.amount === 0 && this.record.tag === '') {return window.alert('请选择标签并输入金额');} else if (this.record.amount === 0) {return window.alert('未输入金额，请重新输入');} else if (this.record.tag === '') {return window.alert('请选择标签，请重新输入');} else {
         this.$store.commit('createRecord', this.record);
       }
       this.record.tag = '';
+      this.record.notes = '';
     }
 
     created() {
       this.$store.commit('fetchRecords');
-      this.$store.commit('fetchTags');
     }
   }
 </script>

@@ -1,7 +1,9 @@
 <template>
   <label class="input">
     <span class="name">{{ title }}</span>
-    <input :placeholder="placeholder" :value="value" type="text" @change="onValueChanged($event.target.value)">
+    <input :placeholder="placeholder" :value="value" class="input1" type="text"
+           @change="onValueChanged($event.target.value)">
+    <slot/>
   </label>
 </template>
 
@@ -28,17 +30,21 @@
     padding-left: 16px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     > .name {
       padding-right: 16px;
+      white-space: nowrap;
     }
 
-    > input {
+    > .input1 {
       height: 64px;
-      flex-grow: 1;
       background: transparent;
       border: none;
       padding-right: 16px;
+      margin-right: auto;
+      overflow: hidden;
     }
+
   }
 </style>
