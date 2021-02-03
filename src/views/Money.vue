@@ -34,11 +34,11 @@
       tag: '',
       notes: '',
       type: '-',
-      amount: '0',
+      amount: 0,
     };
 
     saveRecord() {
-      if (this.record.amount === '0' && this.record.tag === '') {return window.alert('请选择标签并输入金额');} else if (this.record.amount === '0') {return window.alert('未输入金额，请重新输入');} else if (this.record.tag === '') {return window.alert('请选择标签，请重新输入');} else {
+      if (this.record.amount === 0 && this.record.tag === '') {return window.alert('请选择标签并输入金额');} else if (this.record.amount === 0) {return window.alert('未输入金额，请重新输入');} else if (this.record.tag === '') {return window.alert('请选择标签，请重新输入');} else {
         this.$store.commit('createRecord', this.record);
       }
       this.record.tag = '';

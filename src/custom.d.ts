@@ -6,7 +6,7 @@ type RootState = {
 type RecordItem = {
   notes: string
   type: string
-  amount: string
+  amount: number
   tag: string
   createdAt?: string
 }

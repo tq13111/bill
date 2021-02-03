@@ -82,7 +82,7 @@
     ok() {
       if (this.output.indexOf('+') !== -1) {this.add();}
       this.output = this.output.replace(/\.$|\+$/, '');
-      this.$emit('update:value', this.output);
+      this.$emit('update:value', parseFloat(this.output));
       this.$emit('submit');
       this.output = '0';
     }
