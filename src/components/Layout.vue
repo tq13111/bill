@@ -32,4 +32,11 @@
       overflow: auto;
     }
   }
+
+  @media(min-height: 900px) {
+    .layout-wrapper {
+      height: 900px !important;
+      margin-top: 48px;
+    }
+  }
 </style>

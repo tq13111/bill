@@ -7,6 +7,7 @@
 <style lang="scss">
   @import "~@/assets/style/helper.scss";
   @import "~@/assets/style/reset.scss";
+
   body {
     font-family: $font-hei;
     -webkit-font-smoothing: antialiased;
@@ -15,5 +16,11 @@
     font-size: 16px;
     line-height: 1.5;
     background: #f5f5f5;
+  }
+
+  #app {
+    max-width: 500px;
+    margin: 0 auto;
+
   }
 </style>
