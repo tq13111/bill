@@ -6,7 +6,7 @@
       <span class="rightIcon"></span>
     </div>
     <div class="form-wrapper">
-      <MyInput :value="currentTag && currentTag.name" class-prefix="" placeholder="在这里输入标签名" title="标签名"
+      <MyInput :value="currentTag && currentTag.name" placeholder="在这里输入标签名" title="标签名"
                @update:value="update"/>
     </div>
     <div class="button-wrapper">
@@ -39,7 +39,7 @@
 
     update(name: string) {
       if (this.currentTag) {
-        this.$store.commit(' updateTag', {id: this.currentTag.id, name});
+        this.$store.commit('updateTag', {id: this.currentTag.id, name});
       }
     }
 
