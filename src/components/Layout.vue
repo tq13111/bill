@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-wrapper" >
+  <div :style="{height:h+'px'}" class="layout-wrapper">
     <div class="content" :class="classPrefix && classPrefix + '-content' ">
       <slot/>
     </div>
@@ -7,11 +7,18 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="js">
+  const height = document.documentElement.clientHeight
   export default {
     name: 'Layout.vue',
-    props:['classPrefix']
-  };
+    props: ['classPrefix'],
+    data() {
+      return {
+        h: height
+      }
+    },
+  }
+
 </script>
 
 <style lang="scss" scoped>
