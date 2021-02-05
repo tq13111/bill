@@ -1,6 +1,9 @@
 <template>
   <Layout>
     <Tabs :dataSource="dataSource" :value.sync="type" class-prefix="type"/>
+    <div ref="chartWrapper" class="chart-wrapper">
+      <Chart :options="chartOptions" class="chart"/>
+    </div>
     <ul v-if="groupList.length>0">
       <li v-for="(group,index) in groupList" :key="index">
         <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
@@ -23,13 +26,72 @@
   import recordTypeList from '@/constants/recordTypeList';
   import clone from '@/lib/clone';
   import dayjs from 'dayjs';
+  import Chart from '@/components/Chart.vue';
+  import _ from 'lodash';
 
   @Component({
-    components: {Tabs}
+    components: {Chart, Tabs}
   })
   export default class Statistics extends Vue {
     type: string = '-';
     dataSource = recordTypeList;
+
+    get chartData() {
+      const array = [];
+      for (let i = 0; i <= 29; i++) {
+        const date = dayjs().subtract(29, 'day').add(i, 'day').format('YYYY-M-D');
+        const found = _.find(this.groupList, {title: date});
+        array.push({date, total: found ? found.total : 0});
+      }
+      return array;
+    }
+
+    get chartOptions() {
+      const date = this.chartData.map(item => item.date);
+      const total = this.chartData.map(item => item.total);
+      return {
+        grid: {left: 16, right: 16},
+        xAxis: {
+          type: 'category',
+          data: date,
+          axisTick: {alignWithLabel: true},
+          axisLine: {lineStyle: {color: '#666'}},
+          axisLabel: {
+            show: true,
+            formatter: function (value: string) {
+              return value.substr(5);
+            }
+          }
+        },
+        yAxis: {
+          show: false
+        },
+        series: [{
+          type: 'line',
+          data: total,
+          symbol: 'circle',
+          symbolSize: 10,
+          itemStyle: {
+            borderWidth: 1,
+          },
+          label: {
+            show: true, //开启显示
+            position: [0, -20], //在上方显示
+            fontFamily: 'Arial',
+            textStyle: { //数值样式
+              color: 'black',
+              fontSize: 16
+            }
+          }
+        }],
+      };
+    }
+
+    mounted() {
+      const div = this.$refs.chartWrapper as HTMLDivElement;
+      div.scrollLeft = div.scrollWidth;
+    }
+
 
     get recordList() {
       return (this.$store.state as RootState).recordList;
@@ -119,5 +181,17 @@
   .no-result {
     text-align: center;
     padding: 16px;
+  }
+
+  .chart {
+    width: 430%;
+
+    &-wrapper {
+      overflow: auto;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
   }
 </style>

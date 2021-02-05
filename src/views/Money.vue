@@ -4,7 +4,7 @@
     <MyInput :value.sync="record.notes"
              placeholder="在这里输入备注"
              title="备注">
-      <input v-model="isoString" :style="{width:'140px',marginRight:'16px'}" type="date">
+      <input v-model="record.createdAt" :style="{width:'140px',marginRight:'16px',paddingLeft:'4px'}" type="date">
     </MyInput>
     <Tabs :dataSource="dataSource" :value.sync="record.type" class-prefix="xxx"/>
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
@@ -29,15 +29,20 @@
       notes: '',
       type: '-',
       amount: 0,
-      createdAt: new Date().toISOString(),
+      createdAt: dayjs().format('YYYY-MM-DD')
     };
 
-    get isoString() {
-      return dayjs().format('YYYY-MM-DD');
-    }
 
     saveRecord() {
-      if (this.record.amount === 0 && this.record.tag === '') {return window.alert('请选择标签并输入金额');} else if (this.record.amount === 0) {return window.alert('未输入金额，请重新输入');} else if (this.record.tag === '') {return window.alert('请选择标签，请重新输入');} else {
+      if (this.record.amount === 0 && this.record.tag === '') {
+        return window.alert('请选择标签并输入金额');
+      } else if (this.record.amount === 0) {
+        return window.alert('未输入金额，请重新输入');
+      } else if (this.record.tag === '') {
+        return window.alert('请选择标签，请重新输入');
+      } else if (this.record.createdAt > dayjs().format('YYYY-MM-DD')) {
+        return window.alert('错误，今天是：' + dayjs().format('M月D日') + '请勿输入之后的日期');
+      } else {
         this.$store.commit('createRecord', this.record);
       }
       this.record.tag = '';
