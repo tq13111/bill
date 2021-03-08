@@ -15,8 +15,13 @@ type Tag = {
   name: string,
   iconName: string
 }
-type Result = {
+type dayResult = {
   title: string
+  total?: number
+  items: RecordItem[]
+}[]
+type typeResult = {
+  tag: string
   total?: number
   items: RecordItem[]
 }[]

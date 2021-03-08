@@ -2,7 +2,7 @@
   <nav>
     <router-link active-class="selected" class="item" to="/Labels">
       <Icon name="label"/>
-      标签
+      明细
     </router-link>
     <router-link to="/Money" class="item" active-class="selected">
       <Icon name="money"/>
@@ -10,7 +10,7 @@
     </router-link>
     <router-link to="/statistics" class="item" active-class="selected">
       <Icon name="statistics"/>
-      统计
+      图表
     </router-link>
   </nav>
 </template>
@@ -37,12 +37,12 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      color: #ccc;
+      color: #eee;
 
       .icon {
         width: 32px;
         height: 32px;
-        color: #ccc;
+        color: #eee;
 
       }
     }

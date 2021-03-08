@@ -43,14 +43,18 @@
       align-items: center;
       position: relative;
 
-      &.selected::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: rgba(162, 154, 154, 0.9);
+      &.selected {
+        color: #eee;
+
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 4px;
+          background: #eee;
+        }
       }
     }
   }

@@ -101,6 +101,11 @@
       }
     }
 
+    .types {
+      > li {
+        color: #eee;
+      }
+    }
 
   }
 </style>

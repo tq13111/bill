@@ -115,6 +115,8 @@
         height: $height;
         float: left;
         border: none;
+        color: #eee;
+
         @media (min-height: 900px) {
           height: 80px;
         }
@@ -124,6 +126,8 @@
             width: 1.5em;
             height: 1.5em;
             vertical-align: -0.5em;
+            color: #eee;
+
           }
 
           &.clear {

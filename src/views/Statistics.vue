@@ -1,21 +1,15 @@
 <template>
   <Layout>
     <Tabs :dataSource="dataSource" :value.sync="type" class-prefix="type"/>
+    <div class="chart-wrapper">
+      <Chart :options="roundChartOptions"/>
+    </div>
+    <p>日趋势</p>
     <div ref="chartWrapper" class="chart-wrapper">
       <Chart :options="chartOptions" class="chart"/>
     </div>
-    <ul v-if="groupList.length>0">
-      <li v-for="(group,index) in groupList" :key="index">
-        <h3 class="title">{{ beautify(group.title) }} <span>￥{{ group.total }}</span></h3>
-        <ul>
-          <li v-for="(item,index) in group.items" :key=index class="record">
-            <span>{{ item.tag }}</span>
-            <span class="notes">{{ item.notes }}</span>
-            <span>￥{{ item.amount }}</span></li>
-        </ul>
-      </li>
-    </ul>
-    <div v-else class="no-result">目前没有相关记录</div>
+
+
   </Layout>
 </template>
 
@@ -40,22 +34,24 @@
       const array = [];
       for (let i = 0; i <= 29; i++) {
         const date = dayjs().subtract(29, 'day').add(i, 'day').format('YYYY-M-D');
-        const found = _.find(this.groupList, {title: date});
+        const found = _.find(this.dayList, {title: date});
         array.push({date, total: found ? found.total : 0});
       }
       return array;
     }
 
+
     get chartOptions() {
       const date = this.chartData.map(item => item.date);
       const total = this.chartData.map(item => item.total);
       return {
-        grid: {left: 16, right: 16},
+        grid: {left: 16, right: 16, height: '45%', top: 20},
+
         xAxis: {
           type: 'category',
           data: date,
           axisTick: {alignWithLabel: true},
-          axisLine: {lineStyle: {color: '#666'}},
+          axisLine: {lineStyle: {color: '#356ca7'}},
           axisLabel: {
             show: true,
             formatter: function (value: string) {
@@ -73,6 +69,7 @@
           symbolSize: 10,
           itemStyle: {
             borderWidth: 1,
+            color: '#356ca7'
           },
           label: {
             show: true, //开启显示
@@ -87,24 +84,67 @@
       };
     }
 
-    mounted() {
-      const div = this.$refs.chartWrapper as HTMLDivElement;
-      div.scrollLeft = div.scrollWidth;
+    get roundChartOptions() {
+      let data = this.typeList.map(item => ({value: item.total, name: item.tag}));
+      if (data.length === 0) {data = [{value: 0, name: '无'}];}
+      return {
+        color: [
+          '#5470c6',
+          '#91cc75',
+          '#fac858',
+          '#ee6666',
+          '#73c0de',
+          '#3ba272',
+          '#fc8452',
+          '#9a60b4',
+          '#ea7ccc'
+        ],
+        gradientColor: ['#f6efa6',
+          ' #d88273',
+          '#bf444c'],
+        title: {
+          text: '分类统计',
+          left: 'center',
+          padding: 16,
+          textStyle: {
+            fontFamily: 'serif',
+            color: '#356ca7'
+          }
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        series: [
+          {
+            center: ['50%', '40%'],
+            name: '',
+            type: 'pie',
+            radius: '45%',
+            data: data,
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0，0.5)'
+              }
+            }
+          }
+        ]
+      };
     }
-
 
     get recordList() {
       return (this.$store.state as RootState).recordList;
     }
 
-    get groupList() {
+    get dayList() {
       const {recordList} = this;
       const newList = clone(recordList)
         .filter(item => item.type === this.type)
         .sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
-      if (newList.length === 0) {return [] as Result;}
+      if (newList.length === 0) {return [] as dayResult;}
 
-      const result: Result = [{title: dayjs(newList[0].createdAt).format('YYYY-M-D'), items: [newList[0]]}];
+      const result: dayResult = [{title: dayjs(newList[0].createdAt).format('YYYY-M-D'), items: [newList[0]]}];
       for (let i = 1; i < newList.length; i++) {
         const current = newList[i];
         const last = result[result.length - 1];
@@ -120,20 +160,35 @@
       return result;
     }
 
-    beautify(string: string) {
-      const now = dayjs();
-      const date = dayjs(string);
-      if (date.isSame(now, 'day')) {
-        return '今天';
-      } else if (date.isSame(now.subtract(1, 'day'), 'day')) {
-        return '昨天';
-      } else if (date.isSame(now.subtract(2, 'day'), 'day')) {
-        return '前天';
-      } else if (date.isSame(now, 'year')) {
-        return date.format('M月D日');
-      } else {
-        return date.format('YYYY年M月D日');
+    get typeList() {
+      const {recordList} = this;
+      const newList = clone(recordList)
+        .filter(item => item.type === this.type);
+      if (newList.length === 0) {return [];}
+      const result: typeResult = [{tag: newList[0].tag, items: [newList[0]]}];
+      for (let i = 1; i < newList.length; i++) {
+        const current = newList[i];
+        const last = result[result.length - 1];
+        if (last.tag === current.tag) {
+          last.items.push(current);
+        } else {
+          result.push({tag: current.tag, items: [current]});
+        }
       }
+      result.map((group) => {
+        group.total = group.items.reduce((previousValue, item) => previousValue + item.amount, 0);
+      });
+      return result;
+    }
+
+    mounted() {
+      const div = this.$refs.chartWrapper as HTMLDivElement;
+      div.scrollLeft = div.scrollWidth;
+    }
+
+    updated() {
+      const div = this.$refs.chartWrapper as HTMLDivElement;
+      div.scrollLeft = div.scrollWidth;
     }
 
     created() {
@@ -144,6 +199,7 @@
 
 <style lang="scss" scoped>
   @import "~@/assets/style/helper.scss";
+
   ::v-deep .type-item {
     background: white;
 
@@ -156,39 +212,24 @@
     }
   }
 
-  %item {
-    padding: 8px 16px;
-    line-height: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-  }
 
-  .title {
-    @extend %item;
-  }
-
-  .record {
-    background: white;
-    @extend %item;
-  }
-
-  .notes {
-    margin-right: auto;
-    margin-left: 16px;
-    color: #999;
-  }
-
-  .no-result {
+  p {
     text-align: center;
-    padding: 16px;
+    color: $mainBackground;
+    position: relative;
+    top: 10px;
+    font-weight: bold;
+    font-size: 18px;
   }
 
   .chart {
     width: 430%;
 
     &-wrapper {
-      overflow: auto;
+      overflow-x: auto;
+      overflow-y: hidden;
+      height: 45%;
+      position: relative;
 
       &::-webkit-scrollbar {
         display: none;
