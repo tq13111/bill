@@ -28,15 +28,16 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '~@/assets/style/helper.scss';
   .types {
-    background: #c4c4c4;
     display: flex;
     text-align: center;
-    font-size: 24px;
+    font-size: 18px;
+    background: $mainBackground;
 
     > li {
       width: 50%;
-      height: 64px;
+      height: 46px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -49,7 +50,7 @@
         left: 0;
         width: 100%;
         height: 4px;
-        background: #333;
+        background: rgba(162, 154, 154, 0.9);
       }
     }
   }

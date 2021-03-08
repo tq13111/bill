@@ -12,7 +12,7 @@
   import {Component, Prop} from 'vue-property-decorator';
 
   @Component
-  export default class Input extends Vue {
+  export default class MyInput extends Vue {
     @Prop({default: ''}) readonly value!: string;
     @Prop({required: true}) readonly title!: string;
     @Prop() readonly placeholder?: string;
@@ -31,19 +31,29 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: white;
 
     > .name {
       padding-right: 16px;
       white-space: nowrap;
+      flex: 0 0 auto;
     }
 
     > .input1 {
-      height: 64px;
-      background: transparent;
+      height: 48px;
       border: none;
       padding-right: 16px;
       margin-right: auto;
       overflow: hidden;
+      flex-grow: 1;
+
+    }
+
+    > .input2 {
+      flex-shrink: 0;
+      border: none;
+      background: white;
+
     }
 
   }

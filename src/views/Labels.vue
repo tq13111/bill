@@ -52,7 +52,6 @@
   }
 
   .createTag {
-    background: #767676;
     color: white;
     padding: 10px 16px;
     border-radius: 4px;

@@ -18,12 +18,12 @@
       <button @click="calculation">8</button>
       <button @click="calculation">9</button>
       <button class="ok" @click="ok">OK</button>
-      <button @click="calculation" class="zero">0</button>
-      <button @click="calculation" value=".">
+      <button class="zero" @click="calculation">0</button>
+      <button value="." @click="calculation">
         <Icon name="point"/>
       </button>
-      <button @click="calculation" value="+">
-        <Icon name="add" class-prefix="add"/>
+      <button value="+" @click="calculation">
+        <Icon class-prefix="add" name="add"/>
       </button>
     </div>
   </div>
@@ -51,6 +51,7 @@
         }
       }
       if (input === '.' && this.output.match(/\+[0-9]+\.[0-9]+/)) {return;}
+      if (input === '.' && this.output.match(/\./) && !this.output.match(/\+/)) {return;}
       if (this.output.indexOf('+') !== -1 && input === '+' && this.output.length >= 3) {
         this.add();
       }
@@ -92,15 +93,18 @@
 <style lang="scss" scoped>
   @import "~@/assets/style/helper.scss";
 
+  $height: 48px;
+
   .numberPad {
     .output {
-      @extend %clearFix;
       @extend %innerShadow;
-      font-size: 36px;
+      font-size: 26px;
       font-family: Consolas, monospace;
-      padding: 9px 16px;
+      padding: 0 16px;
       text-align: right;
-      height: 72px;
+      height: 48px;
+      line-height: 48px;
+      background: white;
     }
 
     .buttons {
@@ -108,10 +112,12 @@
 
       > button {
         width: 25%;
-        height: 64px;
+        height: $height;
         float: left;
-        background: transparent;
         border: none;
+        @media (min-height: 900px) {
+          height: 80px;
+        }
 
         > .icon {
           &.remove {
@@ -135,38 +141,39 @@
         }
 
         &.ok {
-          height: 64*2px;
+          height: $height * 2;
           float: right;
+          @media (min-height: 900px) {
+            height: 80px *2;
+          }
         }
 
-        $bg: #f2f2f2;
-
         &:nth-child(1) {
-          background: $bg;
+          background: lighten($mainBackground, 4*6%)
         }
 
         &:nth-child(2), &:nth-child(5) {
-          background: darken($bg, 4%);
+          background: lighten($mainBackground, 4*5%);
         }
 
         &:nth-child(3), &:nth-child(6), &:nth-child(9) {
-          background: darken($bg, 4*2%);
+          background: lighten($mainBackground, 4*4%);
         }
 
         &:nth-child(4), &:nth-child(7), &:nth-child(10), &:nth-child(13) {
-          background: darken($bg, 4*3%);
+          background: lighten($mainBackground, 4*3%);
         }
 
         &:nth-child(8), &:nth-child(11), &:nth-child(14) {
-          background: darken($bg, 4*4%);
+          background: lighten($mainBackground, 4*2%);
         }
 
         &:nth-child(15) {
-          background: darken($bg, 4*5%);
+          background: lighten($mainBackground, 4*1%);
         }
 
         &:nth-child(12) {
-          background: darken($bg, 4*6%);
+          background: $mainBackground;
         }
       }
     }

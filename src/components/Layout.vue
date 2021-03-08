@@ -1,6 +1,6 @@
 <template>
   <div :style="{height:h+'px'}" class="layout-wrapper">
-    <div class="content" :class="classPrefix && classPrefix + '-content' ">
+    <div :class="classPrefix && classPrefix + '-content' " class="content">
       <slot/>
     </div>
     <Nav/>
@@ -8,7 +8,12 @@
 </template>
 
 <script lang="js">
-  const height = document.documentElement.clientHeight
+  let height = document.documentElement.clientHeight
+  window.onload = () => {
+    if (document.documentElement.clientHeight > 800) {
+      window.alert('为保证预览效果，请使用手机预览')
+    }
+  }
   export default {
     name: 'Layout.vue',
     props: ['classPrefix'],
@@ -25,7 +30,7 @@
   .layout-wrapper {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100%;
 
     > .content {
       flex-grow: 1;
@@ -37,6 +42,7 @@
     .layout-wrapper {
       height: 900px !important;
       margin-top: 48px;
+
     }
   }
 </style>

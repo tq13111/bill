@@ -26,11 +26,9 @@
 
 <style lang="scss" scoped>
   .types {
-    background: #c4c4c4;
     display: flex;
     text-align: center;
     font-size: 24px;
-
     > li {
       width: 50%;
       height: 64px;

@@ -143,11 +143,12 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "~@/assets/style/helper.scss";
   ::v-deep .type-item {
-    background: #c4c4c4;
+    background: white;
 
     &.selected {
-      background: white;
+      background: $mainBackground;
 
       &::after {
         display: none;

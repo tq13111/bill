@@ -2,13 +2,11 @@
   <div class="tags">
     <ul class="current">
       <li v-for="tag in tagList" :key="tag.id" :class="{selected:tag.name ===value}" @click="select(tag.name)">
-        {{ tag.name }}
+        <Icon :name="tag.iconName"/>
+        <p>{{ tag.name }}</p>
       </li>
-
     </ul>
-    <div class="new">
-      <button @click="createTag">新建标签</button>
-    </div>
+
   </div>
 
 </template>
@@ -45,6 +43,8 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "~@/assets/style/helper.scss";
+
   .tags {
     font-size: 14px;
     padding: 16px;
@@ -53,40 +53,39 @@
     flex-direction: column;
     justify-content: flex-end;
     background: #FFFFFF;
+    height: 400px;
+    overflow: auto;
+
 
     > .current {
       display: flex;
       flex-wrap: wrap;
-      padding-left: 20px;
+      height: 100%;
+      align-content: start;
 
       > li {
         $bg: #d9d9d9;
-        background: $bg;
-        $h: 22px;
-        height: $h;
-        line-height: $h;
-        border-radius: $h/2;
-        padding: 0 16px;
-        margin-right: 12px;
-        margin-top: 4px;
+        width: 25%;
+        height: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        @media (min-width: 900px) {
+          height: 25%;
+        }
 
         &.selected {
           color: white;
-          background: darken($bg, 50%);
+          background: lighten($mainBackground, 40%);
+          border-radius: 10%;
         }
-      }
-    }
 
-    > .new {
-      padding-top: 16px;
-      padding-left: 20px;
-
-      button {
-        background: transparent;
-        border: none;
-        color: #999;
-        border-bottom: 1px solid;
-        padding: 0 4px;
+        > .icon {
+          height: 40%;
+          width: 40%;
+          margin-bottom: 6px;
+        }
       }
     }
   }

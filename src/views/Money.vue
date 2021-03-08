@@ -1,12 +1,13 @@
 <template>
   <Layout class-prefix="layout">
+    <Tabs :dataSource="dataSource" :value.sync="record.type" class-prefix="xxx"/>
     <Tags :value.sync="record.tag"/>
     <MyInput :value.sync="record.notes"
              placeholder="在这里输入备注"
              title="备注">
-      <input v-model="record.createdAt" :style="{width:'140px',marginRight:'16px',paddingLeft:'4px'}" type="date">
+      <input v-model="record.createdAt" :style="{width:'130px',marginRight:'16px',paddingLeft:'4px'}" class="input2"
+             type="date">
     </MyInput>
-    <Tabs :dataSource="dataSource" :value.sync="record.type" class-prefix="xxx"/>
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
   </Layout>
 </template>
@@ -20,6 +21,8 @@
   import {Component} from 'vue-property-decorator';
   import recordTypeList from '@/constants/recordTypeList';
   import dayjs from 'dayjs';
+  import store from '@/store';
+  import {expenditureTags, incomeagsTags} from '@/constants/TagsList';
 
   @Component({components: {Tags, MyInput, Tabs, NumberPad}})
   export default class Money extends Vue {
@@ -49,9 +52,28 @@
       this.record.notes = '';
     }
 
-    created() {
+    fetch() {
+      this.$store.state.tagList = [];
+      if (this.record.type === '-') {
+        expenditureTags.forEach((item) => {
+          store.commit('createTag', item);
+        });
+      } else {
+        incomeagsTags.forEach((item) => {
+          store.commit('createTag', item);
+        });
+      }
       this.$store.commit('fetchRecords');
     }
+
+    created() {
+      this.fetch();
+    }
+
+    updated() {
+      this.fetch();
+    }
+
   }
 </script>
 
@@ -59,5 +81,26 @@
   ::v-deep .layout-content {
     display: flex;
     flex-direction: column;
+    @media (min-height: 600px) {
+      .numberPad {
+        > .buttons {
+          > button {
+            min-height: 48px;
+
+            &.ok {
+              min-height: 48*2px;
+              float: right;
+            }
+          }
+        }
+      }
+      > .types {
+        > li {
+          min-height: 56px;
+        }
+      }
+    }
+
+
   }
 </style>

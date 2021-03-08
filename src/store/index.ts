@@ -34,7 +34,6 @@ const store = new Vuex.Store({
       for (let i = 0; i < state.tagList.length; i++) {
         if (state.tagList[i].id === id) {
           index = i;
-          console.log(index);
           break;
         }
       }
@@ -49,23 +48,19 @@ const store = new Vuex.Store({
     },
     fetchTags(state) {
       state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]') as Tag[];
-      if (state.tagList.length === 0) {
-        store.commit('createTag', '衣');
-        store.commit('createTag', '食');
-        store.commit('createTag', '住');
-        store.commit('createTag', '行');
-      }
+
     },
     saveTags(state) {
       window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
     },
-    createTag(state, name: string) {
+    createTag(state: RootState, {iconName, name}) {
       const names = state.tagList.map(item => item.name);
       if (names.indexOf(name) !== -1) {
         window.alert('标签名重复，请重新输入');
+        return;
       } else {
         const id = createId().toString();
-        state.tagList.push({id, name});
+        state.tagList.push({id, iconName, name,});
         store.commit('saveTags');
       }
     },
