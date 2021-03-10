@@ -4,11 +4,11 @@
       <Icon name="label"/>
       明细
     </router-link>
-    <router-link to="/Money" class="item" active-class="selected">
+    <router-link active-class="selected" class="item" to="/Money">
       <Icon name="money"/>
       记账
     </router-link>
-    <router-link to="/statistics" class="item" active-class="selected">
+    <router-link active-class="selected" class="item" to="/statistics">
       <Icon name="statistics"/>
       图表
     </router-link>
@@ -43,7 +43,6 @@
         width: 32px;
         height: 32px;
         color: #eee;
-
       }
     }
 
@@ -52,7 +51,6 @@
 
       .icon {
         color: darken($mainBackground, 10%);
-
       }
     }
   }

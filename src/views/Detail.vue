@@ -9,7 +9,7 @@
             <span>{{ item.tag }}</span>
             <span class="notes">{{ item.notes }}</span>
             <Icon name="remove2" @click="()=>removeRecord(item.id)"/>
-            <span>￥{{ item.amount }}</span></li>
+            <span class="amount">￥{{ item.amount }}</span></li>
         </ul>
       </li>
     </ul>
@@ -124,6 +124,8 @@
     background: lighten($mainBackground, 20%);
     border-bottom: 1px solid #eee;
     color: #eee;
+    position: relative;
+
     @extend %item;
   }
 
@@ -133,7 +135,12 @@
     color: #ddd;
     font-size: 14px;
     overflow: auto;
-    max-width: 200px;
+    max-width: 160px;
+  }
+
+  .amount {
+    overflow: auto;
+    max-width: 52px;
   }
 
   .no-result {
@@ -147,7 +154,10 @@
     background: rgba(255, 0, 0, 0.1);
     border-radius: 50%;
     margin-right: 16px;
+    position: absolute;
+    right: 65px
   }
+
 
 </style>
 
