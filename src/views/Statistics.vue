@@ -1,6 +1,7 @@
 <template>
   <Layout>
     <Tabs :dataSource="dataSource" :value.sync="type" class-prefix="type"/>
+    <p>分类统计</p>
     <div class="chart-wrapper">
       <Chart :options="roundChartOptions"/>
     </div>
@@ -45,8 +46,7 @@
       const date = this.chartData.map(item => item.date);
       const total = this.chartData.map(item => item.total);
       return {
-        grid: {left: 16, right: 16, height: '45%', top: 20},
-
+        grid: {left: 16, right: 16, height: '45%', top: 25},
         xAxis: {
           type: 'category',
           data: date,
@@ -103,12 +103,10 @@
           ' #d88273',
           '#bf444c'],
         title: {
-          text: '分类统计',
           left: 'center',
           padding: 16,
           textStyle: {
-            fontFamily: 'serif',
-            color: '#356ca7'
+            // color: '#356ca7'
           }
         },
         tooltip: {
@@ -201,10 +199,10 @@
   @import "~@/assets/style/helper.scss";
 
   ::v-deep .type-item {
-    background: white;
 
     &.selected {
-      background: $mainBackground;
+      background: white;
+      color: $mainBackground;
 
       &::after {
         display: none;
@@ -226,9 +224,8 @@
     width: 430%;
 
     &-wrapper {
-      overflow-x: auto;
       overflow-y: hidden;
-      height: 45%;
+      height: 40%;
       position: relative;
 
       &::-webkit-scrollbar {

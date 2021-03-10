@@ -34,6 +34,7 @@
     text-align: center;
     font-size: 18px;
     background: $mainBackground;
+    color: #eee;
 
     > li {
       width: 50%;
@@ -44,7 +45,6 @@
       position: relative;
 
       &.selected {
-        color: #eee;
 
         &::after {
           content: '';

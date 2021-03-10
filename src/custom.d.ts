@@ -1,7 +1,7 @@
 type RootState = {
   recordList: RecordItem[],
   tagList: Tag[],
-  currentTag?: Tag
+  currentTag?: RecordItem
 }
 type RecordItem = {
   notes: string
@@ -9,9 +9,10 @@ type RecordItem = {
   amount: number
   tag: string
   createdAt: string
+  id?: string,
+
 }
 type Tag = {
-  id: string,
   name: string,
   iconName: string
 }
@@ -19,6 +20,7 @@ type dayResult = {
   title: string
   total?: number
   items: RecordItem[]
+  id?: string,
 }[]
 type typeResult = {
   tag: string

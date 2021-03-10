@@ -7,7 +7,6 @@ module.exports = {
   lintOnSave: false,
   'chainWebpack': config => {
     const dir = path.resolve(__dirname, 'src/assets/icons')
-
     config.module
       .rule('svg-sprite')
       .test(/\.svg$/)
@@ -17,7 +16,13 @@ module.exports = {
       .tap(options => ({...options, plugins: []})).end()  //{removeAttrs: {attrs: 'fill'}} 去除颜色
     config.plugin('svg-sprite').use(require('svg-sprite-loader/plugin'), [{plainSprite: true}])
     config.module.rule('svg').exclude.add(dir) // 其他 svg loader 排除 icons 目录
+    config          //配置 title
+      .plugin('html')
+      .tap(args => {
+        args[0].title = 'Muji 记账'
+        return args
+      })
+  },
 
-  }
 }
 

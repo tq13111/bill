@@ -21,7 +21,6 @@
   import {Component} from 'vue-property-decorator';
   import recordTypeList from '@/constants/recordTypeList';
   import dayjs from 'dayjs';
-  import store from '@/store';
   import {expenditureTags, incomeagsTags} from '@/constants/TagsList';
 
   @Component({components: {Tags, MyInput, Tabs, NumberPad}})
@@ -56,11 +55,11 @@
       this.$store.state.tagList = [];
       if (this.record.type === '-') {
         expenditureTags.forEach((item) => {
-          store.commit('createTag', item);
+          this.$store.commit('createTag', item);
         });
       } else {
         incomeagsTags.forEach((item) => {
-          store.commit('createTag', item);
+          this.$store.commit('createTag', item);
         });
       }
       this.$store.commit('fetchRecords');

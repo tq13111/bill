@@ -8,6 +8,7 @@
           <li v-for="(item,index) in group.items" :key=index class="record">
             <span>{{ item.tag }}</span>
             <span class="notes">{{ item.notes }}</span>
+            <Icon name="remove2" @click="()=>removeRecord(item.id)"/>
             <span>￥{{ item.amount }}</span></li>
         </ul>
       </li>
@@ -84,6 +85,10 @@
       }
     }
 
+    removeRecord(id: string) {
+      const result = window.confirm('确认删除');
+      if (result) {this.$store.commit('removeRecord', id);}
+    }
   }
 </script>
 
@@ -92,10 +97,10 @@
   @import "~@/assets/style/helper.scss";
 
   ::v-deep .type-item {
-    background: white;
 
     &.selected {
-      background: $mainBackground;
+      background: white;
+      color: $mainBackground;
 
       &::after {
         display: none;
@@ -125,7 +130,10 @@
   .notes {
     margin-right: auto;
     margin-left: 16px;
-    color: #999;
+    color: #ddd;
+    font-size: 14px;
+    overflow: auto;
+    max-width: 200px;
   }
 
   .no-result {
@@ -133,6 +141,13 @@
     padding: 16px;
   }
 
+  .icon {
+    width: 1.5em;
+    height: 1.5em;
+    background: rgba(255, 0, 0, 0.1);
+    border-radius: 50%;
+    margin-right: 16px;
+  }
 
 </style>
 

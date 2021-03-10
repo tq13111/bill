@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import createId from '@/lib/createId';
 import clone from '@/lib/clone';
-import router from '@/router';
 
 Vue.use(Vuex);
 
@@ -15,37 +14,7 @@ const store = new Vuex.Store({
   } as RootState,
 
   mutations: {
-    findTag(state, id: string) {
-      state.currentTag = state.tagList.filter(item => item.id === id)[0];
-    },
-    updateTag(state, payload: { id: string, name: string }) {
-      const {id, name} = payload;
-      const names = state.tagList.map(item => item.name);
-      if (names.indexOf(name) >= 0) {
-        window.alert('标签名重复，请重新输入');
-      } else {
-        const tag = state.tagList.filter(item => item.id === id)[0];
-        tag.name = name;
-        store.commit('saveTags');
-      }
-    },
-    removeTag(state, id: string) {
-      let index = -1;
-      for (let i = 0; i < state.tagList.length; i++) {
-        if (state.tagList[i].id === id) {
-          index = i;
-          break;
-        }
-      }
-      if (index >= 0) {
-        state.tagList.splice(index, 1);
-        store.commit('saveTags');
-        router.back();
-      } else {
-        window.alert('删除失败');
-      }
-      store.commit('saveTags');
-    },
+
     fetchTags(state) {
       state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]') as Tag[];
 
@@ -59,8 +28,7 @@ const store = new Vuex.Store({
         window.alert('标签名重复，请重新输入');
         return;
       } else {
-        const id = createId().toString();
-        state.tagList.push({id, iconName, name,});
+        state.tagList.push({iconName, name,});
         store.commit('saveTags');
       }
     },
@@ -72,10 +40,29 @@ const store = new Vuex.Store({
     },
     createRecord(state, recordList: RecordItem) {
       const record2: RecordItem = clone(recordList);
-      state.recordList.push(record2);
+      const id = createId().toString();
+      state.recordList.push({id, ...record2});
       store.commit('saveRecords');
       window.alert('记账成功');
-    }
+    },
+    removeRecord(state, id: string) {
+      let index = -1;
+      for (let i = 0; i < state.recordList.length; i++) {
+        if (state.recordList[i].id === id) {
+          console.log(id);
+          index = i;
+
+          break;
+        }
+      }
+      if (index >= 0) {
+        console.log(index);
+        state.recordList.splice(index, 1);
+      } else {
+        window.alert('删除失败');
+      }
+      store.commit('saveRecords');
+    },
   },
   actions: {},
   modules: {}

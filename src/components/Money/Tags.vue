@@ -61,7 +61,7 @@
       display: flex;
       flex-wrap: wrap;
       height: 100%;
-      align-content: start;
+      align-content: flex-start;
 
       > li {
         $bg: #d9d9d9;
