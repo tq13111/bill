@@ -4,7 +4,8 @@
     <Tags :value.sync="record.tag"/>
     <MyInput :value.sync="record.notes"
              placeholder="在这里输入备注"
-             title="备注">
+             title="备注"
+             @focus="scroll">
       <input v-model="record.createdAt" :style="{width:'130px',marginRight:'16px',paddingLeft:'4px'}" class="input2"
              type="date">
     </MyInput>
@@ -34,6 +35,9 @@
       createdAt: dayjs().format('YYYY-MM-DD')
     };
 
+    scroll() {
+      document.body.scrollTop = 0;
+    }
 
     saveRecord() {
       if (this.record.amount === 0 && this.record.tag === '') {
